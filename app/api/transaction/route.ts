@@ -19,7 +19,7 @@ const abi = [
 ];
 
 // The contract address
-const contractAddress = '0x...'; // TODO: Replace with your deployed contract address
+const contractAddress = '0xefa95f3b3713443abf6bfe4091eef899ef1d0b32'; // TODO: Replace with your deployed contract address
 const betAmount = '0.001'; // The bet amount in ETH
 
 export async function POST(req: NextRequest) {

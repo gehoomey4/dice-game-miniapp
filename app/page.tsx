@@ -8,7 +8,7 @@ import { parseEther } from 'viem';
 // ---------------------------------------------------------------------------------
 // TODO: Replace with your actual contract address and ABI after deployment.
 // ---------------------------------------------------------------------------------
-const contractAddress = '0x...'; // Replace with your deployed contract address
+const contractAddress = '0xefa95f3b3713443abf6bfe4091eef899ef1d0b32'; // Replace with your deployed contract address
 
 // You can get the full ABI from your compiled contract.
 // This is a minimal ABI for the `guess` function to get you started.
