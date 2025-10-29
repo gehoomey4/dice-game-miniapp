@@ -5,9 +5,29 @@ import { Address, Balance, ConnectWallet } from '@coinbase/onchainkit';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
 
-// TODO: Replace with your contract's ABI and address once compiled and deployed.
+// ---------------------------------------------------------------------------------
+// TODO: Replace with your actual contract address and ABI after deployment.
+// ---------------------------------------------------------------------------------
 const contractAddress = '0x...'; // Replace with your deployed contract address
-const contractAbi = []; // Replace with your contract ABI
+
+// You can get the full ABI from your compiled contract.
+// This is a minimal ABI for the `guess` function to get you started.
+const contractAbi = [
+  {
+    "type": "function",
+    "name": "guess",
+    "inputs": [
+      {
+        "name": "_guess",
+        "type": "uint8", // Corresponds to the Guess enum (0 for UNDER, 1 for OVER)
+        "internalType": "enum DiceGame.Guess"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  }
+];
+// ---------------------------------------------------------------------------------
 
 export default function Home() {
   const [betAmount, setBetAmount] = useState('0.01');
@@ -16,16 +36,16 @@ export default function Home() {
   const { data: hash, error, isPending, writeContract } = useWriteContract();
 
   async function handleBet(isOverSeven: boolean) {
+    const guessEnum = isOverSeven ? 1 : 0; // 0 for UNDER, 1 for OVER
     setChoice(isOverSeven ? 'over' : 'under');
-    // TODO: Enable contract interaction
-    // writeContract({
-    //   address: contractAddress,
-    //   abi: contractAbi,
-    //   functionName: 'placeBet',
-    //   args: [isOverSeven],
-    //   value: parseEther(betAmount),
-    // });
-    console.log(`Betting ${betAmount} ETH on ${isOverSeven ? 'Over 7' : 'Under 7'}`);
+
+    writeContract({
+      address: contractAddress,
+      abi: contractAbi,
+      functionName: 'guess',
+      args: [guessEnum],
+      value: parseEther(betAmount),
+    });
   }
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
@@ -97,8 +117,7 @@ export default function Home() {
         {isConfirmed && (
           <div className="p-4 mt-4 text-center bg-green-900 rounded-md">
             <p className="font-bold">Transaction Successful!</p>
-            {/* You would typically get the result from contract events here */}
-            <p>You chose {choice}. The dice roll result will appear here.</p>
+            <p>Your bet on {choice} has been placed. Check your wallet for the result.</p>
           </div>
         )}
 
