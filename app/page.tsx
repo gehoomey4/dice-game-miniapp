@@ -1,18 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { Address, Balance } from '@coinbase/onchainkit/identity';
-import { ConnectWallet } from '@coinbase/onchainkit/wallet';
+import dynamic from 'next/dynamic';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
 
-// ---------------------------------------------------------------------------------
-// TODO: Replace with your actual contract address and ABI after deployment.
-// ---------------------------------------------------------------------------------
-const contractAddress = '0xefa95f3b3713443abf6bfe4091eef899ef1d0b32'; // Replace with your deployed contract address
+// Dynamically import OnchainKit components with SSR disabled
+const ConnectWallet = dynamic(() => import('@coinbase/onchainkit/wallet').then(mod => mod.ConnectWallet), { ssr: false });
+const Address = dynamic(() => import('@coinbase/onchainkit/identity').then(mod => mod.Address), { ssr: false });
+const Balance = dynamic(() => import('@coinbase/onchainkit/identity').then(mod => mod.Balance), { ssr: false });
 
-// You can get the full ABI from your compiled contract.
-// This is a minimal ABI for the `guess` function to get you started.
+// ---------------------------------------------------------------------------------
+const contractAddress = '0xefa95f3b3713443abf6bfe4091eef899ef1d0b32';
 const contractAbi = [
   {
     "type": "function",
@@ -20,7 +19,7 @@ const contractAbi = [
     "inputs": [
       {
         "name": "_guess",
-        "type": "uint8", // Corresponds to the Guess enum (0 for UNDER, 1 for OVER)
+        "type": "uint8",
         "internalType": "enum DiceGame.Guess"
       }
     ],
@@ -37,7 +36,7 @@ export default function Home() {
   const { data: hash, error, isPending, writeContract } = useWriteContract();
 
   async function handleBet(isOverSeven: boolean) {
-    const guessEnum = isOverSeven ? 1 : 0; // 0 for UNDER, 1 for OVER
+    const guessEnum = isOverSeven ? 1 : 0;
     setChoice(isOverSeven ? 'over' : 'under');
 
     writeContract({
