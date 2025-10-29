@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Address, Balance, ConnectWallet } from '@coinbase/onchainkit';
+import { Address, Balance } from '@coinbase/onchainkit/identity';
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
 
