@@ -1,14 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import dynamic from 'next/dynamic';
+import { Address, Balance } from '@coinbase/onchainkit/identity';
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
-
-// Dynamically import OnchainKit components with SSR disabled
-const ConnectWallet = dynamic(() => import('@coinbase/onchainkit/wallet').then(mod => mod.ConnectWallet), { ssr: false });
-const Address = dynamic(() => import('@coinbase/onchainkit/identity').then(mod => mod.Address), { ssr: false });
-const Balance = dynamic(() => import('@coinbase/onchainkit/identity').then(mod => mod.Balance), { ssr: false });
 
 // ---------------------------------------------------------------------------------
 const contractAddress = '0xefa95f3b3713443abf6bfe4091eef899ef1d0b32';
