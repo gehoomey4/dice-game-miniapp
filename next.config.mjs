@@ -1,13 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config) => {
-    // Ensure externals is an array
-    config.externals = config.externals || [];
+  webpack: (config, { isServer }) => {
+    // For server-side builds, we need to externalize these packages
+    // to prevent Vercel's bundler from failing on subpath exports.
+    if (isServer) {
+      config.externals = [
+        '@coinbase/onchainkit',
+        'wagmi',
+        'viem',
+        ...config.externals
+      ];
+    }
 
-    // Add the packages that are causing issues with Vercel's bundling
-    config.externals.push('@coinbase/onchainkit', 'wagmi', 'viem');
-
-    // Aliases for native modules that are not needed in a server environment
+    // Aliases for native modules that are not needed in a server environment.
     config.resolve.alias = {
       ...config.resolve.alias,
       '@react-native-async-storage/async-storage': false,
