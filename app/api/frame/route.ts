@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit';
+import { FrameRequest, getFrameMessage } from '@coinbase/onchainkit/farcaster';
 
 const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 const contractAddress = '0x...'; // TODO: Replace with your deployed contract address
