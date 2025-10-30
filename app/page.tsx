@@ -7,8 +7,6 @@ import { parseEther } from 'viem';
 
 // Dynamically import OnchainKit components with SSR disabled
 const ConnectWallet = dynamic(() => import('@coinbase/onchainkit/wallet').then(mod => mod.ConnectWallet), { ssr: false });
-const Address = dynamic(() => import('@coinbase/onchainkit/identity').then(mod => mod.Address), { ssr: false });
-const Balance = dynamic(() => import('@coinbase/onchainkit/identity').then(mod => mod.Balance), { ssr: false });
 
 // ---------------------------------------------------------------------------------
 const contractAddress = '0xefa95f3b3713443abf6bfe4091eef899ef1d0b32';
@@ -62,15 +60,6 @@ export default function Home() {
       <div className="w-full max-w-md p-6 bg-gray-800 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-4">Dice Game: Over/Under 7</h1>
 
-        {address && (
-          <div className="p-4 mb-4 text-center bg-gray-700 rounded-md">
-            <p className="mb-2">Your Wallet:</p>
-            <Address address={address} className="text-lg font-mono" />
-            <p className="mt-2">
-              Balance: <Balance address={address} />
-            </p>
-          </div>
-        )}
 
         <div className="mb-4">
           <label htmlFor="betAmount" className="block mb-2 text-sm font-medium">Bet Amount (ETH)</label>
@@ -123,7 +112,7 @@ export default function Home() {
 
         {error && (
           <div className="p-4 mt-4 text-center text-red-400 bg-red-900 rounded-md">
-            <p>Error: {error.shortMessage || error.message}</p>
+            <p>Error: {error.message}</p>
           </div>
         )}
       </div>
