@@ -112,7 +112,7 @@ export default function Home() {
 
         {error && (
           <div className="p-4 mt-4 text-center text-red-400 bg-red-900 rounded-md">
-            <p>Error: {error.shortMessage || error.message}</p>
+            <p>Error: {error.message}</p>
           </div>
         )}
       </div>
