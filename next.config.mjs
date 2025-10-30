@@ -5,6 +5,8 @@ const nextConfig = {
     config.resolve.alias['@react-native-async-storage/async-storage'] = false;
     config.resolve.alias['pino-pretty'] = false;
 
+    config.externals.push('@coinbase/onchainkit', 'wagmi', 'viem');
+
     return config;
   },
 };
