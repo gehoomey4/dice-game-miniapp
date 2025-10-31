@@ -27,7 +27,7 @@ const GAME_CONTRACT_ABI = [
 
 export default function Home() {
   // 0 = Under 7, 1 = Over 7
-  const [guess, setGuess] = useState<0 | 1>(1); // پیش‌فرض روی Over 7
+  const [guess, setGuess] = useState<0 | 1>(1); // Default to Over 7
   const [betAmount, setBetAmount] = useState('0.001');
 
   const { address } = useAccount();
@@ -48,175 +48,79 @@ export default function Home() {
       hash,
     });
 
+  // Base classes for choice buttons
+  const baseButtonClasses = "p-4 text-base font-bold rounded-lg border-2 transition-all duration-200";
+  const selectedButtonClasses = "bg-blue-600 border-blue-600 text-white";
+  const defaultButtonClasses = "border-gray-600 bg-transparent text-gray-300 hover:bg-gray-800 hover:border-gray-500";
 
-  // استایل‌های CSS
-  const baseButtonStyle: React.CSSProperties = {
-    padding: '16px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    borderRadius: '8px',
-    border: '2px solid #555',
-    backgroundColor: 'transparent',
-    color: '#fff',
-  };
-
-  const messageStyle: React.CSSProperties = {
-    padding: '12px',
-    marginTop: '20px',
-    borderRadius: '8px',
-    textAlign: 'center',
-    fontSize: '14px',
-  };
-
-  const styles: { [key: string]: React.CSSProperties } = {
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      backgroundColor: '#111',
-      color: '#fff',
-      fontFamily: 'Arial, sans-serif',
-      padding: '20px',
-    },
-    card: {
-      backgroundColor: '#222',
-      borderRadius: '16px',
-      padding: '24px',
-      width: '100%',
-      maxWidth: '400px',
-      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
-      border: '1px solid #333',
-    },
-    header: {
-      fontSize: '28px',
-      fontWeight: 'bold',
-      textAlign: 'center',
-      marginBottom: '24px',
-    },
-    label: {
-      fontSize: '14px',
-      fontWeight: 'bold',
-      color: '#aaa',
-      marginBottom: '8px',
-    },
-    input: {
-      width: '100%',
-      padding: '12px',
-      fontSize: '16px',
-      border: '1px solid #444',
-      backgroundColor: '#111',
-      color: '#fff',
-      borderRadius: '8px',
-      boxSizing: 'border-box',
-      marginBottom: '20px',
-    },
-    buttonGroup: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: '10px',
-      marginBottom: '24px',
-    },
-    button: baseButtonStyle,
-    buttonSelected: {
-      ...baseButtonStyle,
-      backgroundColor: '#0052FF',
-      borderColor: '#0052FF',
-    },
-    transactionButton: {
-      width: '100%',
-      padding: '16px',
-      fontSize: '18px',
-      fontWeight: 'bold',
-      cursor: 'pointer',
-      borderRadius: '8px',
-      border: 'none',
-      backgroundColor: '#0052FF',
-      color: 'white',
-      marginTop: '10px',
-    },
-    message: messageStyle,
-    errorMessage: {
-      ...messageStyle,
-      backgroundColor: '#400',
-      color: '#f99',
-    },
-    successMessage: {
-      ...messageStyle,
-      backgroundColor: '#040',
-      color: '#9f9',
-    },
-  };
+  // Base classes for message boxes
+  const baseMessageClasses = "p-3 mt-5 rounded-lg text-center text-sm";
 
   return (
-    // SafeArea برای جلوگیری از تداخل با UI موبایل (از سند ۸)
-      <div style={styles.container}>
-        <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
-          <ConnectWallet />
-        </div>
-        <div style={styles.card}>
-          <h1 style={styles.header}>🎲 Dice Game 🎲</h1>
-
-          {/* انتخاب مبلغ شرط */}
-          <div>
-            <label style={styles.label}>Bet Amount (ETH)</label>
-            <input
-              type="number"
-              value={betAmount}
-              onChange={(e) => setBetAmount(e.target.value)}
-              step="0.001"
-              min="0.0001"
-              style={styles.input}
-            />
-          </div>
-
-          {/* انتخاب Over یا Under */}
-          <div style={styles.buttonGroup}>
-            <button
-              onClick={() => setGuess(0)} // 0 = Under
-              style={guess === 0 ? styles.buttonSelected : styles.button}
-            >
-              Under 7
-            </button>
-            <button
-              onClick={() => setGuess(1)} // 1 = Over
-              style={guess === 1 ? styles.buttonSelected : styles.button}
-            >
-              Over 7
-            </button>
-          </div>
-
-          {/* دکمه‌ی اصلی بازی */}
-          <button
-            style={styles.transactionButton}
-            disabled={isPending || !address}
-            onClick={handleBet}
-          >
-            {isPending ? 'Confirming...' : 'Roll the Dice!'}
-          </button>
-
-          {/* نمایش پیام‌های وضعیت */}
-          {isConfirming && (
-            <div style={styles.message}>
-              <p>Transaction pending...</p>
-            </div>
-          )}
-
-          {isConfirmed && (
-            <div style={styles.successMessage}>
-              <p>Bet placed successfully! Check your wallet.</p>
-            </div>
-          )}
-
-          {error && (
-            <div style={styles.errorMessage}>
-              <p>Error: {error.message}</p>
-            </div>
-          )}
-
-        </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-900 to-black text-white p-5">
+      <div className="absolute top-5 right-5">
+        <ConnectWallet />
       </div>
+      <div className="bg-gray-900/50 backdrop-blur-md border border-gray-700 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+        <h1 className="text-4xl font-bold text-center mb-6">🎲 Dice Game 🎲</h1>
+
+        {/* Bet Amount Selection */}
+        <div>
+          <label className="text-sm font-bold text-gray-400 mb-2 block">Bet Amount (ETH)</label>
+          <input
+            type="number"
+            value={betAmount}
+            onChange={(e) => setBetAmount(e.target.value)}
+            step="0.001"
+            min="0.0001"
+            className="w-full p-3 text-lg border border-gray-600 bg-gray-900 text-white rounded-lg mb-5 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        {/* Over/Under Selection */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <button
+            onClick={() => setGuess(0)} // 0 = Under
+            className={`${baseButtonClasses} ${guess === 0 ? selectedButtonClasses : defaultButtonClasses}`}
+          >
+            Under 7
+          </button>
+          <button
+            onClick={() => setGuess(1)} // 1 = Over
+            className={`${baseButtonClasses} ${guess === 1 ? selectedButtonClasses : defaultButtonClasses}`}
+          >
+            Over 7
+          </button>
+        </div>
+
+        {/* Main Action Button */}
+        <button
+          className="w-full p-4 text-lg font-bold rounded-lg border-none bg-blue-600 text-white mt-2 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors duration-200"
+          disabled={isPending || !address}
+          onClick={handleBet}
+        >
+          {isPending ? 'Confirming...' : 'Roll the Dice!'}
+        </button>
+
+        {/* Status Messages */}
+        {isConfirming && (
+          <div className={`${baseMessageClasses} bg-gray-700 text-gray-300`}>
+            <p>Transaction pending...</p>
+          </div>
+        )}
+
+        {isConfirmed && (
+          <div className={`${baseMessageClasses} bg-green-900/80 text-green-300`}>
+            <p>Bet placed successfully! Check your wallet.</p>
+          </div>
+        )}
+
+        {error && (
+          <div className={`${baseMessageClasses} bg-red-900/80 text-red-300`}>
+            <p>Error: {error.message}</p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
