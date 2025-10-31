@@ -9,7 +9,7 @@ const ConnectWallet = dynamic(() => import('@coinbase/onchainkit/wallet').then(m
 
 // --- مقادیر کانترکت ---
 // ⚠️ مطمئن شوید که Jules از آدرس کانترکت نهایی شما استفاده می‌کند
-const GAME_CONTRACT_ADDRESS = '0xefa95f3b3713443abf6bfe4091eef899ef1d0b32';
+const GAME_CONTRACT_ADDRESS = '0x8e252cc98e751adf3f205413f28b34c99bdac7eb';
 
 // ABI (رابط) کانترکت شما
 const GAME_CONTRACT_ABI = [
