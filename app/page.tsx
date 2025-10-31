@@ -28,7 +28,7 @@ const GAME_CONTRACT_ABI = [
 export default function Home() {
   // 0 = Under 7, 1 = Over 7
   const [guess, setGuess] = useState<0 | 1>(1); // Default to Over 7
-  const [betAmount, setBetAmount] = useState('0.001');
+  const [betAmount, setBetAmount] = useState('0.000001');
 
   const { address } = useAccount();
   const { data: hash, error, isPending, writeContract } = useWriteContract();
@@ -71,8 +71,8 @@ export default function Home() {
             type="number"
             value={betAmount}
             onChange={(e) => setBetAmount(e.target.value)}
-            step="0.001"
-            min="0.0001"
+            step="0.000001"
+            min="0.000001"
             className="w-full p-3 text-lg border border-gray-600 bg-gray-900 text-white rounded-lg mb-5 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>

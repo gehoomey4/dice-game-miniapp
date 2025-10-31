@@ -18,8 +18,8 @@ contract DiceGame {
 
     // تابع اصلی برای شرط بندی و حدس
     function guess(Guess _guess) public payable {
-        // مطمئن شوید که مبلغ شرط حداقل 0.001 ETH است (قابل تغییر)
-        require(msg.value > 0.001 ether, "Minimum bet is 0.001 ETH.");
+        // Bet must be greater than zero
+        require(msg.value > 0, "Bet must be greater than zero.");
         // مطمئن شوید که کانترکت توانایی پرداخت جایزه (2x) را دارد
         require(address(this).balance >= msg.value * 2, "Contract does not have enough funds to cover the potential payout.");
 
